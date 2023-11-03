@@ -56,4 +56,12 @@ do
   fi
 done
 
-
+if [[ $commit == true ]]
+then
+  # Update the logs.
+  git config --global user.name 'Abdelhak Marouane'
+  git config --global user.email 'am0089@uah.com'
+  git add -A --force logs/
+  git commit -am '[Automated] Update Health Check Logs'
+  git push
+fi
