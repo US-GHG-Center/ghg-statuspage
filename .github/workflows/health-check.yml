@@ -24,6 +24,8 @@ jobs:
     name: Check all sites
     steps:
       - uses: actions/checkout@v2
+        with:
+          token: ${{ secrets.GH_TOKEN }}
       - name: Run Shell Script
         id: shell_script_run
         run: |
