@@ -2,10 +2,9 @@ name: Scheduled Health Check
 
 # Controls when the action will run.
 on:
-  push:
-    branches: [ "main" ]
-  pull_request:
-    branches: [ "main" ]
+  schedule:
+    # * is a special character in YAML so you have to quote this string
+    - cron:  '0 */5 * * *'
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
 
@@ -42,10 +41,6 @@ jobs:
           git add -A --force logs/
           git commit -am '[Automated] Update Health Check Logs'
           git push origin main
-      
-      - name: Build for production 🔧
-        run: |
-          ls -al
         
 
   # Single deploy job since we're just deploying
