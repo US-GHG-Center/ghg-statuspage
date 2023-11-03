@@ -121,6 +121,10 @@ footer a {
   justify-content: center;
 }
 
+.logo {
+  display: flex;
+  align-items: left;
+}
 .headline span {
   background-color: #f5f6f8;
   border-radius: 5px;
