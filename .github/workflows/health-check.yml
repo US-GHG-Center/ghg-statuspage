@@ -17,7 +17,6 @@ jobs:
           bash ./health-check.sh
           mkdir dist
           cp -r . dist
-          ls -al dist
 
   deploy:
     needs: health_check_job
