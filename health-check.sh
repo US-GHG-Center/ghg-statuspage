@@ -35,6 +35,10 @@ do
   for i in 1 2 3 4; 
   do
     response=$(curl --write-out '%{http_code}' --silent --output /dev/null $url)
+    title=$(curl -s $url | sed -n 's/.*<title>\(.*\)<\/title>.*/\1/p')
+    if [ "$title" == "Error 500 - Server Error" ]; then
+      response=500
+    fi
     if [ "$response" -eq 200 ] || [ "$response" -eq 202 ] || [ "$response" -eq 301 ] || [ "$response" -eq 302 ] || [ "$response" -eq 307 ]; then
       result="success"
     else

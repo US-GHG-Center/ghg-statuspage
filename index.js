@@ -7,17 +7,39 @@ async function genReportLog(container, key, url) {
     statusLines = await response.text();
   }
 
+  
+
   const normalized = normalizeData(statusLines);
+  const keys = Object.keys(normalized);
+  const overAllHealth = normalized[keys[keys.length - 2]]
+  console.log(JSON.stringify(normalized))
+
+  if (overAllHealth == 0) {
+
+    overallhealth = document.getElementById("overallhealth")
+    overallhealth.classList.replace("success", "failure");
+    overallhealth.textContent = "Unhealthy"
+
+  }
   const statusStream = constructStatusStream(key, url, normalized);
   container.appendChild(statusStream);
+
 }
 
 function constructStatusStream(key, url, uptimeData) {
   let streamContainer = templatize("statusStreamContainerTemplate");
+  let overallReportHealth = 0
+
   for (var ii = maxDays - 1; ii >= 0; ii--) {
     let line = constructStatusLine(key, ii, uptimeData[ii]);
     streamContainer.appendChild(line);
+    if (uptimeData[ii] != undefined) {
+      overallReportHealth = uptimeData[ii]
+    }
+    
+
   }
+  
 
   const lastSet = uptimeData[0];
   const color = getColor(lastSet);
@@ -101,7 +123,10 @@ function templatizeString(text, parameters) {
   if (parameters) {
     for (const [key, val] of Object.entries(parameters)) {
       text = text.replaceAll("$" + key, val);
+      
     }
+
+    
   }
   return text;
 }
@@ -246,6 +271,7 @@ async function genAllReports() {
     if (!key || !url) {
       continue;
     }
+
 
     await genReportLog(document.getElementById("reports"), key, url);
   }
