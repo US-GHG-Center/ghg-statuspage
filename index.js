@@ -10,17 +10,6 @@ async function genReportLog(container, key, url) {
   
 
   const normalized = normalizeData(statusLines);
-  const keys = Object.keys(normalized);
-  const overAllHealth = normalized[keys[keys.length - 2]]
-  console.log(JSON.stringify(normalized))
-
-  if (overAllHealth == 0) {
-
-    overallhealth = document.getElementById("overallhealth")
-    overallhealth.classList.replace("success", "failure");
-    overallhealth.textContent = "Unhealthy"
-
-  }
   const statusStream = constructStatusStream(key, url, normalized);
   container.appendChild(statusStream);
 
